@@ -14,7 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ambulance_requests: {
+        Row: {
+          ambulance_id: string | null
+          created_at: string | null
+          emergency_type: string
+          id: string
+          notes: string | null
+          patient_name: string
+          patient_phone: string
+          pickup_address: string | null
+          pickup_latitude: number
+          pickup_longitude: number
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          ambulance_id?: string | null
+          created_at?: string | null
+          emergency_type: string
+          id?: string
+          notes?: string | null
+          patient_name: string
+          patient_phone: string
+          pickup_address?: string | null
+          pickup_latitude: number
+          pickup_longitude: number
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          ambulance_id?: string | null
+          created_at?: string | null
+          emergency_type?: string
+          id?: string
+          notes?: string | null
+          patient_name?: string
+          patient_phone?: string
+          pickup_address?: string | null
+          pickup_latitude?: number
+          pickup_longitude?: number
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ambulance_requests_ambulance_id_fkey"
+            columns: ["ambulance_id"]
+            isOneToOne: false
+            referencedRelation: "ambulances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ambulances: {
+        Row: {
+          created_at: string | null
+          current_latitude: number | null
+          current_longitude: number | null
+          driver_name: string
+          driver_phone: string
+          id: string
+          is_available: boolean | null
+          vehicle_number: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_latitude?: number | null
+          current_longitude?: number | null
+          driver_name: string
+          driver_phone: string
+          id?: string
+          is_available?: boolean | null
+          vehicle_number: string
+        }
+        Update: {
+          created_at?: string | null
+          current_latitude?: number | null
+          current_longitude?: number | null
+          driver_name?: string
+          driver_phone?: string
+          id?: string
+          is_available?: boolean | null
+          vehicle_number?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          id: string
+          phone_number: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          phone_number?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          phone_number?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
