@@ -1,11 +1,32 @@
 import { Button } from '@/components/ui/button';
-import { MapPin, Phone } from 'lucide-react';
+import { MapPin, Phone, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import AmbulanceAnimation from './AmbulanceAnimation';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   const handleEmergencyRequest = () => {
-    // This will be connected to backend later
-    console.log('Emergency request initiated');
+    if (user) {
+      navigate('/request');
+    } else {
+      navigate('/auth');
+    }
   };
 
   return (
@@ -43,14 +64,17 @@ const HeroSection = () => {
               <Phone className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
               Request Ambulance Now
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="text-lg px-8 py-6 border-2"
-            >
-              <MapPin className="mr-2 h-5 w-5" />
-              Track Active Request
-            </Button>
+            {user && (
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="text-lg px-8 py-6 border-2"
+                onClick={() => navigate('/my-requests')}
+              >
+                <User className="mr-2 h-5 w-5" />
+                My Requests
+              </Button>
+            )}
           </div>
 
           {/* Trust Indicators */}
